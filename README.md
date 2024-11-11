@@ -1,6 +1,6 @@
-# Assignment 7
+# Assignment 8
 
-## Task: The `Location program`
+## Task: The `read waveform (binary)`
 
 The linear system can be represented as:
 
