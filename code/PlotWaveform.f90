@@ -2,10 +2,6 @@ program PlotWaveform
     use iso_c_binding
     implicit none
 
-    ! Include PGPLOT module or interfaces
-    ! Ensure that the PGPLOT library is correctly linked during compilation
-
-    ! Define the header type without the blk field
     type, bind(c) :: Header
         character(kind=c_char), dimension(4) :: Code        ! 4-character array
         real(c_double)                       :: orgintime   ! Origin time (8 bytes)
@@ -108,6 +104,8 @@ program PlotWaveform
     call pgsci(4)
     call pgline(n, T, E3)
 
-    call pgclos()                ! Close the PGPLOT device
+    call pgclos()
+
+    deallocate(E1, E2, E3)
 
 end program PlotWaveform
