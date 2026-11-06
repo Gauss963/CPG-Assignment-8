@@ -1,5 +1,6 @@
 program ConvertOriginTime
     use iso_c_binding
+    use iso_fortran_env, only: int64
     implicit none
 
     real(c_double) :: origin_time_seconds
@@ -14,12 +15,10 @@ program ConvertOriginTime
 contains
 
     subroutine unix_time_to_date(seconds_since_epoch, year, month, day, hour, minute, second)
-        use iso_fortran_env, only: int64
         implicit none
         real(c_double), intent(in) :: seconds_since_epoch
         integer, intent(out) :: year, month, day, hour, minute, second
-        integer(int64) :: total_seconds, days, leap_days
-        integer :: y, m, d
+        integer(int64) :: total_seconds, days
         integer, parameter :: seconds_in_day = 86400
 
         total_seconds = int(seconds_since_epoch, int64)
@@ -41,11 +40,13 @@ contains
         implicit none
         integer(int64), intent(in) :: days_since_epoch
         integer, intent(out) :: year, month, day
-        integer :: n, i
-        integer, parameter :: month_days(12) = (/31,28,31,30,31,30,31,31,30,31,30,31/)
+        integer(int64) :: n
+        integer :: i
+        integer :: month_days(12)
         integer :: y
         integer :: days_in_year
 
+        month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         y = 1970
         n = days_since_epoch
 
@@ -76,7 +77,7 @@ contains
                 n = n - month_days(i)
             else
                 month = i
-                day = n + 1
+                day = int(n) + 1
                 exit
             end if
         end do
